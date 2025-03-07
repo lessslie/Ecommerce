@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=postgres      # Cambiado de DATABASE_HOST a DB_HOST
+      - DB_PORT=5432         # Cambiado de DATABASE_PORT a DB_PORT
+      - DB_USER=postgres     # Cambiado de DATABASE_USER a DB_USER
+      - DB_PASSWORD=postgres # Cambiado de DATABASE_PASSWORD a DB_PASSWORD
+      - DB_NAME=lessslie_db  # Cambiado de DATABASE_NAME a DB_NAME
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: postgres
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=lessslie_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
