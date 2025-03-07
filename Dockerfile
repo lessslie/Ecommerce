@@ -2,6 +2,9 @@ FROM node:18-alpine AS development
 
 WORKDIR /usr/src/app
 
+# Resolvemos el problema de 'crypto is not defined' 
+ENV NODE_OPTIONS=--require=crypto
+
 COPY package*.json ./
 
 RUN npm install

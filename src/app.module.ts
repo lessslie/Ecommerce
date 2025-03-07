@@ -9,7 +9,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { OrdersModule } from './orders/orders.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { JwtModule } from '@nestjs/jwt';
-
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -34,12 +35,12 @@ import { JwtModule } from '@nestjs/jwt';
     UsersModule,
     ProductsModule,
     JwtModule.register({
-      global:true,
-      secret:process.env.JWT_SECRET,
-      signOptions:{expiresIn:'1h'},
-    })
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1h' },
+    }),
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
-
- 

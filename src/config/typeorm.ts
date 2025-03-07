@@ -1,8 +1,12 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { config as dotenvConfig } from 'dotenv';
 import { registerAs } from '@nestjs/config';
+import * as crypto from 'crypto';
 
 dotenvConfig({ path: '.env.development.local' });
+
+
+(global as any).crypto = crypto;
 
 const config = {
   type: 'postgres',
@@ -12,7 +16,7 @@ const config = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   autoLoadEntities: true,
-  synchronize: true,
+  synchronize: false,
   logging: true,
   // dropSchema:true,
   entities: ['dist/**/*.entity{.ts,.js}'],
