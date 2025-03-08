@@ -21,6 +21,9 @@ const config = {
   // dropSchema:true,
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
+  ssl: {
+    rejectUnauthorized: false // Para desarrollo
+  }
 };
 
 //la exportacion que vamos a usar para NEST (app Moduele)
