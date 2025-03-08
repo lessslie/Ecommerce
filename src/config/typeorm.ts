@@ -3,40 +3,44 @@ import { config as dotenvConfig } from 'dotenv';
 import { registerAs } from '@nestjs/config';
 import * as crypto from 'crypto';
 
-dotenvConfig({ path: '.env.development.local' });
+// Intenta cargar el archivo .env.development.local, pero no falla si no existe
+try {
+  dotenvConfig({ path: '.env.development.local' });
+} catch (e) {
+  // Intenta cargar .env por defecto
+  dotenvConfig();
+}
 
+// Necesario para TypeORM con NestJS
 (global as any).crypto = crypto;
+
+// Configuración unificada que funciona tanto con URL como con parámetros individuales
 const config = {
   type: 'postgres',
-  url: process.env.DATABASE_URL,
+  // Prioriza la URL de conexión completa si está disponible
+  ...(process.env.DATABASE_URL
+    ? {
+        url: process.env.DATABASE_URL,
+      }
+    : {
+        host: process.env.DB_HOST,
+        port: parseInt(process.env.DB_PORT || '5432', 10),
+        username: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+      }),
   ssl: {
-    rejectUnauthorized: false,
+    rejectUnauthorized: false, // Necesario para conexiones a Supabase y otros proveedores cloud
   },
   autoLoadEntities: true,
-  synchronize: false,
+  synchronize: process.env.NODE_ENV !== 'production', // Solo sincroniza en desarrollo
+  logging: process.env.NODE_ENV !== 'production', // Solo loguea en desarrollo
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
 };
-// const config = {
-//   type: 'postgres',
-//   host: process.env.DB_HOST,
-//   port: process.env.DB_PORT,
-//   username: process.env.DB_USER,
-//   password: process.env.DB_PASSWORD,
-//   database: process.env.DB_NAME,
-//   autoLoadEntities: true,
-//   synchronize: false,
-//   logging: true,
-//   // dropSchema:true,
-//   entities: ['dist/**/*.entity{.ts,.js}'],
-//   migrations: ['dist/migrations/*{.ts,.js}'],
-//   ssl: {
-//     rejectUnauthorized: false // Para desarrollo
-//   }
-// };
 
-//la exportacion que vamos a usar para NEST (app Moduele)
+// Exportación para NestJS (AppModule)
 export default registerAs('typeorm', () => config);
 
-// la exportacion que vamos a usar para las migraciones (EXPRESS)
+// Exportación para migraciones (Express)
 export const connectionSource = new DataSource(config as DataSourceOptions);
