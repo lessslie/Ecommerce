@@ -5,26 +5,35 @@ import * as crypto from 'crypto';
 
 dotenvConfig({ path: '.env.development.local' });
 
-
 (global as any).crypto = crypto;
-
 const config = {
   type: 'postgres',
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  url: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
   autoLoadEntities: true,
   synchronize: false,
-  logging: true,
-  // dropSchema:true,
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
-  ssl: {
-    rejectUnauthorized: false // Para desarrollo
-  }
 };
+// const config = {
+//   type: 'postgres',
+//   host: process.env.DB_HOST,
+//   port: process.env.DB_PORT,
+//   username: process.env.DB_USER,
+//   password: process.env.DB_PASSWORD,
+//   database: process.env.DB_NAME,
+//   autoLoadEntities: true,
+//   synchronize: false,
+//   logging: true,
+//   // dropSchema:true,
+//   entities: ['dist/**/*.entity{.ts,.js}'],
+//   migrations: ['dist/migrations/*{.ts,.js}'],
+//   ssl: {
+//     rejectUnauthorized: false // Para desarrollo
+//   }
+// };
 
 //la exportacion que vamos a usar para NEST (app Moduele)
 export default registerAs('typeorm', () => config);
