@@ -1,3 +1,43 @@
+
+# Ecommerce Lesslie API
+
+API para el ecommerce de Lesslie construida con NestJS y PostgreSQL.
+
+## Acceso a la API
+
+La API está desplegada en Render y disponible en:
+
+- URL Base: https://ecommerce-g9u2.onrender.com/
+- Documentación (Swagger): https://ecommerce-g9u2.onrender.com/api
+
+## Endpoints principales
+
+- **Autenticación**: `/auth`
+  - Login: `POST /auth/login`
+  - Registro: `POST /auth/register`
+
+- **Productos**: `/products`
+  - Listar productos: `GET /products`
+  - Detalle de producto: `GET /products/:id`
+
+- **Categorías**: `/categories`
+  - Listar categorías: `GET /categories`
+
+- **Órdenes**: `/orders`
+  - Crear orden: `POST /orders`
+  - Listar órdenes: `GET /orders`
+
+## Desarrollo local
+
+### Requisitos previos
+- Node.js (v18+)
+- PostgreSQL
+
+### Configuración
+
+1. Clonar el repositorio:
+ git clone https://github.com/lessslie/Ecommerce.git
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
