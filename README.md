@@ -7,7 +7,7 @@ API para el ecommerce de Lesslie construida con NestJS y PostgreSQL.
 
 La API está desplegada en Render y disponible en:
 
-- URL Base: https://ecommerce-lessslie.onrender.com
+- URL Base: https://ecommerce-g9u2.onrender.com/
 - Documentación (Swagger): https://ecommerce-g9u2.onrender.com/api
 
 ## Endpoints principales
