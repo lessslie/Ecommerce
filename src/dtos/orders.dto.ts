@@ -29,21 +29,43 @@ export class CreateOrderDto {
 }
 
 export class UpdateProductDto {
+  @ApiProperty({
+    description: 'Nombre del producto',
+    example: 'Laptop Asus ZenBook Pro',
+    required: false,
+  })
   @IsString()
   @IsNotEmpty()
   @IsOptional()
   name?: string;
 
+  @ApiProperty({
+    description: 'Descripción detallada del producto',
+    example: 'Laptop con procesador Intel Core i9, 32GB RAM, 1TB SSD, pantalla 16 pulgadas',
+    required: false,
+  })
   @IsString()
   @IsNotEmpty()
   @IsOptional()
   description?: string;
 
+  @ApiProperty({
+    description: 'Precio del producto',
+    example: 1899.99,
+    required: false,
+    type: Number,
+  })
   @IsNumber()
   @IsNotEmpty()
   @IsOptional()
   price?: number;
 
+  @ApiProperty({
+    description: 'Cantidad disponible en inventario',
+    example: 15,
+    required: false,
+    type: Number,
+  })
   @IsNumber()
   @IsNotEmpty()
   @IsOptional()

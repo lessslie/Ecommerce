@@ -23,7 +23,7 @@ export class CreateUserDto {
   name: string;
 
   /**
-   * @example "lolan@test.com"
+   * @example "fulanita_ok@test.com"
    * @description Email del usuario
    */
   @IsEmail({}, { message: 'El formato del email no es válido' })
@@ -37,7 +37,7 @@ export class CreateUserDto {
    */
   @IsString()
   @IsNotEmpty()
-  @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
+  @MinLength(5, { message: 'La contraseña debe tener al menos 5 caracteres' })
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).*$/, {
     message:
       'La contraseña debe contener al menos: una letra minúscula, una letra mayúscula, un número y un carácter especial 🧐',
@@ -54,7 +54,7 @@ export class CreateUserDto {
   address: string;
 
   /**
-   * @example "0114456981515"
+   * @example 0114456981515
    * @description Solo ingresa numeros.
    */
   @IsNumber({}, { message: 'El teléfono debe ser un número válido' })
