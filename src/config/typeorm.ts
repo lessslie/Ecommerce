@@ -46,7 +46,8 @@ const config = {
       }
     : {}),
   autoLoadEntities: true,
-  synchronize: process.env.NODE_ENV !== 'production',
+  //synchronize: process.env.NODE_ENV !== 'production',
+  synchronize: true,
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
 };
