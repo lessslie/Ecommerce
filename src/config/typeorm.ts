@@ -3,18 +3,25 @@ import { config as dotenvConfig } from 'dotenv';
 import { registerAs } from '@nestjs/config';
 import * as crypto from 'crypto';
 
-// Intenta cargar el archivo .env.development.local, pero no falla si no existe
+// Intentar cargar variables de entorno
 try {
   dotenvConfig({ path: '.env.development.local' });
 } catch (e) {
-  // Intenta cargar .env por defecto
   dotenvConfig();
 }
 
-// Necesario para TypeORM con NestJS
-(global as any).crypto = crypto;
+// Solo asignar crypto al objeto global si no existe
+if (!(global as any).crypto) {
+  // Comprobar si crypto ya existe en global
+  try {
+    (global as any).crypto = crypto;
+  } catch (e) {
+    console.warn(
+      'No se puede asignar crypto al objeto global, pero esto es normal en Node.js 20+',
+    );
+  }
+}
 
-// Configuración unificada que funciona tanto con URL como con parámetros individuales
 const config = {
   type: 'postgres',
   // Prioriza la URL de conexión completa si está disponible
@@ -29,12 +36,17 @@ const config = {
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
       }),
-  ssl: {
-    rejectUnauthorized: false, // Necesario para conexiones a Supabase y otros proveedores cloud
-  },
+  // Solo aplicar SSL si no es una conexión local
+  ...(process.env.DATABASE_URL &&
+  !process.env.DATABASE_URL.includes('localhost')
+    ? {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      }
+    : {}),
   autoLoadEntities: true,
-  synchronize: process.env.NODE_ENV !== 'production', // Solo sincroniza en desarrollo
-  logging: process.env.NODE_ENV !== 'production', // Solo loguea en desarrollo
+  synchronize: process.env.NODE_ENV !== 'production',
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
 };
