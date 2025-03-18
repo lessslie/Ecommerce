@@ -119,8 +119,9 @@ export class ProductsController {
     description: 'No autorizado',
   })
   @ApiBearerAuth()
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   @Post()
-  @UseGuards(AuthGuard)
   addProduct(@Body() productDto: CreateProductDto) {
     return this.productsService.addProduct(productDto);
   }

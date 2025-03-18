@@ -11,6 +11,7 @@ import { FileUploadModule } from './file-upload/file-upload.module';
 import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CartsModule } from './carts/carts.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { AppService } from './app.service';
     CategoriesModule,
     AuthModule,
     UsersModule,
+    CartsModule,
     ProductsModule,
     JwtModule.register({
       global: true,

@@ -17,7 +17,8 @@ import { User } from "../entities/users.entity";
             User])
     ],
     providers: [OrdersService,OrdersRepository],
-    controllers: [OrdersController]
+    controllers: [OrdersController],
+    exports:[OrdersService]
 })
 
 export class OrdersModule{}
