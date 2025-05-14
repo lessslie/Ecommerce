@@ -29,5 +29,8 @@ async function bootstrap() {
   app.use(loggerMiddleware.use);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   await app.listen(process.env.PORT ?? 3000);
+  console.log(`Application is running on: ${await app.getUrl()}`);
+  console.log(`Swagger is running on: ${await app.getUrl()}/api`);
+  
 }
 bootstrap();
